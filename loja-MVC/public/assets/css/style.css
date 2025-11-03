@@ -1,0 +1,349 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+:root {
+  --black: #191919;
+  --white: #fff;
+  --blue: #0000ff;
+  --red: #d0342c;
+  --bg: rgba(242, 242, 234, 0.8);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit", sans-serif;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: var(--bg);
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Header */
+.header {
+  position: fixed;
+  width: 100%;
+  height: 60px;
+  background: var(--white);
+  box-shadow: 0px 2px 2px 2px rgb(162, 162, 162);
+  padding: 0px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1001;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  margin-right: auto;
+}
+
+.logo img {
+  display: block;
+  width: 4.5rem;
+  height: auto;
+}
+
+.logo span {
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--black);
+  display: block;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  z-index: 1000;
+  margin-right: 2rem;
+}
+.nav-item {
+  display: inline-block;
+  margin-right: 20px;
+}
+.nav-link {
+  position: relative;
+  color: var(--black);
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding-top: 6px;
+  display: flex;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  right: 0;
+  bottom: -3px;
+  width: 0;
+  background: var(--blue);
+  transition: width 0.5s;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Ícones (Login e Carrinho) */
+.icon {
+  font-size: 2.3rem;
+  color: var(--black);
+  margin-right: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Ícone de Login */
+.login-icon {
+  color: var(--black);
+  margin-left: 22px;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.login-icon i {
+  font-size: 2.3rem;
+}
+
+/* Ícone do Carrinho */
+#cart-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon span {
+  position: absolute;
+  font-size: 1.5rem;
+  background-color: var(--red);
+  color: var(--white);
+  border-radius: 52%;
+  font-weight: bold;
+  padding: 2px 5px;
+  top: -8px;
+  right: -18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+}
+
+/* Toggle */
+.nav-toggle {
+  font-size: 2rem;
+  padding: 3rem 1%;
+  margin-top: -10px;
+  cursor: pointer;
+  color: var(--black);
+  display: none;
+}
+
+/* Responsivo */
+@media only screen and (max-width: 768px) {
+  .navbar {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 60px;
+    right: -100%;
+    padding-bottom: 50px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--black);
+    z-index: 1000;
+    transition: 0.5s ease-in;
+  }
+
+  .navbar.active {
+    right: 0%;
+  }
+
+  .logo img {
+    max-width: 100px;
+  }
+
+  .nav-link {
+    margin: 15px 5px;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--white);
+    letter-spacing: 1px;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+
+  .icon {
+    gap: 10px;
+  }
+
+  .login-icon {
+    color: var(--black);
+  }
+
+  .login-icon:hover {
+    color: var(--red);
+  }
+
+  .login-container {
+    max-width: 25rem;
+  }
+}
+
+/* Carrinho */
+header .carrinho {
+  position: absolute;
+  top: 110%;
+  width: 35rem;
+  right: -110%;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.5);
+  background: var(--white);
+  z-index: 1000;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+header .carrinho.active {
+  right: 2rem;
+  transition: 0.5s linear;
+}
+
+header .header-carrinho h2 {
+  padding: 3px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+header .carrinho h2,
+header .carrinho-close {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+header .carrinho .carrinho-close {
+  position: absolute;
+  right: 10px;
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 50px 0;
+  cursor: pointer;
+}
+
+header .carrinho-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+header .carrinho-item img {
+  margin-right: 20px;
+}
+
+header .carrinho-item-titulo {
+  position: relative;
+  top: -45px;
+  height: 40px;
+  color: var(--black);
+  font-size: 2.1rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+header .quantity i {
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+header .quantity input {
+  border: none;
+  text-align: center;
+  width: 32px;
+  font-size: 1.6rem;
+  color: var(--black);
+  font-weight: 500;
+}
+
+header .carrinho-item-preco {
+  position: relative;
+  color: var(--red);
+  display: inline-block;
+  font-size: 1.8rem;
+  font-weight: 800;
+  bottom: 40px;
+  padding: 2px 10px;
+  text-align: center;
+  left: 60%;
+  transform: translateX(-50%);
+}
+
+header #remover-btn {
+  font-size: 2rem;
+  border: none;
+  margin-left: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+header #remover-btn i {
+  pointer-events: none;
+}
+
+.carrinho-total .lista {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carrinho-total strong {
+  font-size: 1.7rem;
+}
+.carrinho-preco-total {
+  font-size: 1.7rem;
+  font-weight: 500;
+  padding: 10px;
+}
+
+header .btn-checkout {
+  width: 100%;
+  border: none;
+  background-color: var(--red);
+  color: var(--white);
+  border-radius: 5px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 10px;
+  display: block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+header .btn-checkout:hover {
+  background-color: #b02a23;
+}
+
+header .btn-checkout i {
+  margin-right: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
