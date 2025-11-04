@@ -77,6 +77,7 @@ i {
 }
 
 .header .container {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -91,15 +92,14 @@ i {
 
 .logo i {
   color: var(--gold-color);
-  font-style: oblique;
-  font-size: 1.8rem;
+  font-size: 2.5rem;
 }
 
 .logo h1 {
-  font-size: 1.8rem;
-  font-weight: bold;
-  font-style: oblique;
+  font-size: 2.2rem;
+  font-weight: 300;
   color: var(--gold-color);
+  text-transform: capitalize;
 }
 
 .container-inline {
@@ -545,7 +545,7 @@ i {
 }
 
 .info-item:hover {
-  background: rgba(7,1,54,0.5);
+  background: rgba(7, 1, 54, 0.5);
   transform: translateX(5px);
 }
 
@@ -878,19 +878,19 @@ i {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 2px solid rgba(162, 155, 254, 0.5); 
+  border: 2px solid rgba(162, 155, 254, 0.5);
   color: var(--text-color);
-  font-size: 2rem; 
+  font-size: 2rem;
   transition: all 0.3s ease;
   text-decoration: none;
 }
 
 .social-link:hover {
- transform: translateY(-5px);
- box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
- background-color: var(--primary-color); 
- color: var(--text-color);
- border-color: var(--text-color);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border-color: var(--text-color);
 }
 
 /*  footer */
@@ -902,4 +902,379 @@ i {
   font-size: 0.8rem;
   font-style: inherit;
   font-weight: 200;
+}
+
+/* responsive  */
+@media (max-width: 768px) {
+  .header .container {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .nav {
+    margin-top: 2rem;
+    left: 0;
+    width: 100%;
+    background: var(--dark-color);
+    flex-direction: column;
+    display: none;
+  }
+
+  .nav.active {
+    display: flex;
+  }
+
+  .nav a {
+    padding: 1rem 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav a:last-child {
+    border-bottom: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .hero-content h2 {
+    font-size: 2rem;
+  }
+
+  .about-content {
+    grid-template-columns: 1fr;
+  }
+
+  .about-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contact-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .social-link {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  .header .container {
+    gap: 0.5rem;
+  }
+
+  .logo-area {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .logo {
+    gap: 0.3rem;
+  }
+
+  .logo i {
+    font-size: 1.5rem;
+  }
+
+  .logo h1 {
+    font-size: 1.3rem;
+  }
+
+  .container-inline {
+    gap: 0;
+  }
+
+  .container-inline h2 {
+    font-size: 0.85rem;
+    line-height: 1.2;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+
+  .container-inline h2 span {
+    font-size: 0.85rem;
+    display: inline;
+    margin-left: 3px;
+  }
+
+  /* Menu Toggle */
+  .menu-toggle {
+    display: block;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    padding: 0.5rem;
+  }
+
+  .header {
+    position: relative;
+  }
+
+  .header .container {
+    position: static;
+  }
+
+  .nav {
+    position: absolute;
+    top: 100%;
+    margin-top: 0.8rem;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: var(--dark-color);
+    flex-direction: column;
+    display: none;
+    z-index: 999;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav.active {
+    display: flex;
+  }
+
+  .nav a {
+    font-size: 1.1rem;
+    padding: 1rem 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav a:last-child {
+    border-bottom: none;
+  }
+
+  /* Hero Section */
+  .hero {
+    padding: 100px 0;
+  }
+
+  .hero-content h2 {
+    font-size: 1.6rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .btn-primary {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  /* Player Section */
+  .player-section {
+    padding: 80px 0;
+  }
+
+  .player-container {
+    padding: 1.5rem;
+  }
+
+  .player-info {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .album-art {
+    width: 80px;
+    height: 80px;
+  }
+
+  .album-art i {
+    font-size: 2rem;
+  }
+
+  .control-buttons {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  .btn-control {
+    width: 45px;
+    height: 45px;
+  }
+
+  .btn-play {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+  }
+
+  .volume-control {
+    margin-left: 0;
+    margin-top: 1rem;
+    justify-content: center;
+  }
+
+  #volumeSlider {
+    width: 80px;
+  }
+
+  /* Playlist */
+  .playlist h3 {
+    font-size: 1.2rem;
+  }
+
+  .playlist-item {
+    padding: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .playlist-item span {
+    font-size: 1.1rem;
+  }
+
+  .playlist-item i {
+    font-size: 1.4rem;
+  }
+
+  /* About Section */
+  .about {
+    padding: 4rem 0;
+  }
+
+  .about h2 {
+    font-size: 2rem;
+  }
+
+  .about-text p {
+    font-size: 1.2rem;
+  }
+
+  .about-text p span {
+    font-size: 1.3rem;
+    margin-left: 5px;
+  }
+
+  .about-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .stat {
+    padding: 1.5rem;
+  }
+
+  .stat h3 {
+    font-size: 2.2rem;
+  }
+
+  .stat p {
+    font-size: 1.2rem;
+  }
+
+  /* Contact Section */
+  .contact {
+    padding: 80px 0;
+  }
+
+  .contact h2 {
+    font-size: 1.6rem;
+  }
+
+  .contact p {
+    font-size: 1.2rem;
+  }
+
+  .contact-info h3 {
+    font-size: 1.3rem;
+  }
+
+  .contact-info p {
+    font-size: 1rem;
+  }
+
+  .info-item {
+    flex-direction: row;
+    padding: 0.8rem;
+  }
+
+  .info-item i {
+    font-size: 1.3rem;
+    width: 35px;
+    height: 35px;
+  }
+
+  .info-item div h4 {
+    font-size: 1.1rem;
+  }
+
+  .info-item div p,
+  .info-item span {
+    font-size: 1rem;
+  }
+
+  .contact-form {
+    padding: 1.5rem;
+  }
+
+  .form-group label {
+    font-size: 1.1rem;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  .form-group textarea {
+    min-height: 120px;
+  }
+
+  .btn-submit {
+    max-width: 100%;
+    font-size: 1rem;
+    padding: 0.7rem 1.5rem;
+  }
+
+  /* WhatsApp Float Button */
+  .whatsapp-float {
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .whatsapp-icon i {
+    font-size: 1.8rem;
+  }
+
+  /* Social Section */
+  .social-section {
+    padding: 2rem 0;
+  }
+
+  .social-section h3 {
+    font-size: 1.5rem;
+  }
+
+  .social-links {
+    gap: 15px;
+  }
+
+  .social-link {
+    width: 45px;
+    height: 45px;
+    font-size: 1.6rem;
+  }
+
+  /* Footer */
+  .footer {
+    font-size: 0.75rem;
+    padding: 15px 0;
+  }
+
+  h3, p {
+    font-size: 1.2rem;
+  }
+
+  i {
+    font-size: 1.6rem;
+  }
 }
