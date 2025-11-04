@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filipe Cruz - Arcanjo Miguel</title>
+    <title>Sola Gratia</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/login.css">
     <link rel="stylesheet" href="assets/css/contact.css">
@@ -15,8 +15,8 @@
         <div class="container">
             <div class="logo-area">
                 <div class="logo">
-                    <i class="fas fa-music"></i>
-                    <h1>Filipe Cruz</h1>
+                  <i class="fa-solid fa-cross"></i>
+                    <h1>Sola Gratia</h1>
                 </div>
                 <div class="container-inline">
                     <h2>Mas Deus escolheu as coisas loucas deste mundo para confundir as sábias.<span>&nbsp;1Co 1:27</span></h2>
