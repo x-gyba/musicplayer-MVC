@@ -272,3 +272,42 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
         }
     };
 });
+
+
+// scroll suave
+    document.addEventListener('DOMContentLoaded', function() {
+        // Seleciona todos os links de âncora que apontam para uma seção dentro da mesma página
+        const anchorLinks = document.querySelectorAll('a[href^="#"]');
+        
+        anchorLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Previne o comportamento padrão de "salto"
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Obtém a altura do header fixo, se houver, para ajustar o scroll (offset)
+                    const header = document.querySelector('.header');
+                    const headerHeight = header ? header.offsetHeight : 0;
+
+                    // Calcula a posição do scroll, subtraindo a altura do header
+                    const offsetPosition = targetElement.offsetTop - headerHeight;
+
+                    // Aplica a rolagem suave
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+
+                    // (Opcional) Se o seu menu mobile usa a classe 'active' para fechar, você pode adicionar esta lógica:
+                    const nav = document.querySelector('.nav');
+                    if (nav && nav.classList.contains('active')) {
+                        nav.classList.remove('active');
+                        // Se você tiver um botão toggle, adicione a lógica para desativá-lo visualmente aqui.
+                    }
+                }
+            });
+        });
+    });

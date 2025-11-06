@@ -1,113 +1,155 @@
-/* Sistema de Login Modal Otimizado */
+/* Sistema de Login Modal - CLASSE OTIMIZADA */
+class LoginModal {
+  constructor() {
+    this.modal = null;
+    this.overlay = null;
+    this.closeBtn = null;
+    this.loginTrigger = null;
+    this.form = null;
+    this.message = null;
+    this.togglePassword = null;
+    this.passwordInput = null;
+    this.usernameInput = null;
+    this.loginButton = null;
 
-const LoginModal = {
-  modal: null,
-  overlay: null,
-  closeBtn: null,
-  loginTrigger: null,
-  form: null,
-  message: null,
-  togglePassword: null,
-  passwordInput: null,
+    console.log("🔧 Inicializando LoginModal...");
+    this.init();
+  }
 
-  /* Inicializa o modal de login */
   init() {
-    // Captura elementos
+    // 1. Captura elementos do DOM
     this.modal = document.getElementById("loginModal");
     this.overlay = document.getElementById("loginOverlay");
     this.closeBtn = document.getElementById("closeModal");
-    
-    // Captura o gatilho de abertura (prioriza 'loginTrigger', usa 'openModal' como fallback)
-    this.loginTrigger = 
-        document.getElementById("loginTrigger") ?? 
-        document.getElementById("openModal");
-    
+    this.loginTrigger =
+      document.getElementById("loginTrigger") ||
+      document.getElementById("openModal");
     this.form = document.getElementById("loginForm");
     this.message = document.getElementById("formMessage");
     this.togglePassword = document.getElementById("togglePassword");
+    
+    // **Aprimoramento:** Captura inputs e botão para uso em outros métodos
     this.passwordInput = document.getElementById("password");
+    this.usernameInput = document.getElementById("username");
+    this.loginButton = document.getElementById("btnLogin");
 
-    if (!this.modal || !this.form) {
-      console.error("Elementos do modal de login não encontrados!");
+
+    // 2. Validação de elementos essenciais
+    if (!this.modal) {
+      console.error("❌ Modal não encontrado! Verifique o ID 'loginModal'");
+      return;
+    }
+    if (!this.form) {
+      console.error("❌ Formulário não encontrado! Verifique o ID 'loginForm'");
       return;
     }
 
-    // Configura eventos
     this.setupEvents();
+    console.log("✅ Modal de login inicializado com sucesso!");
+  }
 
-    console.log("Modal de login inicializado.");
-  },
-
-  /* Configura todos os eventos do modal  */
   setupEvents() {
-    /* Abrir modal */
+    // 1️⃣ ABRIR MODAL
     if (this.loginTrigger) {
-      this.loginTrigger.addEventListener("click", (e) => {
-        e.preventDefault();
-        this.open();
-      });
+      this.loginTrigger.addEventListener("click", this.handleOpen.bind(this));
     }
 
-    /* Fechar modal */
+    // 2️⃣ FECHAR MODAL - BOTÃO X
     if (this.closeBtn) {
-      this.closeBtn.addEventListener("click", () => this.close());
+      this.closeBtn.addEventListener("click", this.handleClose.bind(this));
+    } else {
+      console.warn("⚠️ Botão de fechar não encontrado!");
     }
 
-    /* Toggle de senha */
+    // 3️⃣ FECHAR COM TECLA ESC
+    document.addEventListener("keydown", (e) => {
+      if (this.modal.classList.contains("active") && e.key === "Escape") {
+        console.log("⌨️ ESC pressionado - Fechando modal");
+        this.close();
+      }
+    });
+
+    // 4️⃣ PROTEGER CONTEÚDO DO MODAL (Impede clique "vazado" no overlay)
+    const modalContent = this.modal.querySelector(".login-modal-content");
+    if (modalContent) {
+      modalContent.addEventListener("click", (e) => e.stopPropagation());
+    }
+
+    // 5️⃣ TOGGLE DE SENHA
     if (this.togglePassword && this.passwordInput) {
-      this.togglePassword.addEventListener("click", () => {
+      this.togglePassword.addEventListener("click", (e) => {
+        e.preventDefault();
         this.togglePasswordVisibility();
       });
     }
 
-    /* Submit do formulário */
+    // 6️⃣ SUBMIT DO FORMULÁRIO
     if (this.form) {
-      this.form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        this.handleLogin();
-      });
+      this.form.addEventListener("submit", this.handleLogin.bind(this));
     }
-        
-  },
+  }
+  
+  // MÉTODOS AUXILIARES para Events
+  handleOpen(e) {
+    e.preventDefault();
+    console.log("🔓 Abrindo modal...");
+    this.open();
+  }
 
-  /* Abre o modal */
+  handleClose(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    console.log("❌ Botão X clicado - Fechando modal");
+    this.close();
+  }
+
+
   open() {
+    if (!this.modal) return;
+
     this.modal.classList.add("active");
-    // Adiciona a classe no body para desabilitar o scroll, se necessário
-    document.body.classList.add("modal-open"); 
+    document.body.classList.add("modal-open");
 
-    // Foca no campo de usuário
+    console.log("✅ Modal aberto");
+
     setTimeout(() => {
-      document.getElementById("username")?.focus();
+      if (this.usernameInput) {
+        this.usernameInput.focus();
+      }
     }, 100);
-  },
+  }
 
-  /**
-   * Fecha o modal
-   */
   close() {
+    if (!this.modal) return;
+
+    console.log("🔒 Fechando modal...");
     this.modal.classList.remove("active");
     document.body.classList.remove("modal-open");
     this.clearForm();
-  },
+    console.log("✅ Modal fechado");
+  }
 
-  /**
-   * Alterna visibilidade da senha
-   */
   togglePasswordVisibility() {
-    const type = this.passwordInput.type === "password" ? "text" : "password";
-    this.passwordInput.type = type;
+    // Sem duplicação, usando this.passwordInput
+    if (!this.passwordInput || !this.togglePassword) return;
+
+    const isPassword = this.passwordInput.type === "password";
+    this.passwordInput.type = isPassword ? "text" : "password";
 
     const icon = this.togglePassword.querySelector("i");
-    icon.className = type === "password" ? "fas fa-eye" : "fas fa-eye-slash";
-  },
+    if (icon) {
+      icon.className = isPassword ? "fas fa-eye-slash" : "fas fa-eye";
+    }
+  }
 
-  /**
-   * Processa o login
-   */
-  async handleLogin() {
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value;
+  async handleLogin(e) {
+    e.preventDefault(); // Garante que o preventDefault está aqui
+
+    // Sem duplicação, usando this.usernameInput e this.passwordInput
+    const username = this.usernameInput?.value.trim();
+    const password = this.passwordInput?.value;
 
     if (!username || !password) {
       this.showMessage("Por favor, preencha todos os campos.", "error");
@@ -134,7 +176,6 @@ const LoginModal = {
 
       if (data.success) {
         this.showMessage("Login realizado! Redirecionando...", "success");
-
         setTimeout(() => {
           window.location.href = "upload.php";
         }, 1000);
@@ -153,57 +194,43 @@ const LoginModal = {
       );
       this.setLoading(false);
     }
-  },
+  }
 
-  /**
-   * Exibe mensagem de feedback
-   */
   showMessage(text, type) {
     if (!this.message) return;
-
     this.message.textContent = text;
-    // Garante que a classe 'show' é aplicada sempre que uma mensagem é exibida
-    this.message.className = `form-message show ${type}`; 
-  },
+    this.message.className = `form-message show ${type}`;
+  }
 
-  /**
-   * Esconde mensagem
-   */
   hideMessage() {
     if (!this.message) return;
-    this.message.classList.remove("show");
-    // Opcional: remover as classes de tipo para limpar completamente
-    this.message.classList.remove("error", "success"); 
-  },
+    this.message.classList.remove("show", "error", "success");
+  }
 
-  /**
-   * Define estado de loading no botão
-   */
   setLoading(isLoading) {
-    const btn = document.getElementById("btnLogin");
-    if (!btn) return;
+    // Sem duplicação, usando this.loginButton
+    if (!this.loginButton) return;
 
-    btn.disabled = isLoading;
+    this.loginButton.disabled = isLoading;
     if (isLoading) {
-      btn.classList.add("loading");
+      this.loginButton.classList.add("loading");
     } else {
-      btn.classList.remove("loading");
+      this.loginButton.classList.remove("loading");
     }
-  },
+  }
 
-  /**
-   * Limpa o formulário
-   */
   clearForm() {
     if (this.form) {
       this.form.reset();
     }
     this.hideMessage();
     this.setLoading(false);
-  },
-};
+  }
+}
 
-// Inicializa quando o DOM estiver pronto
+/* Inicialização */
 document.addEventListener("DOMContentLoaded", () => {
-  LoginModal.init();
+  console.log("📄 DOM carregado - Inicializando LoginModal (Classe)");
+  // Cria uma nova instância da classe
+  window.LoginModalInstance = new LoginModal();
 });
