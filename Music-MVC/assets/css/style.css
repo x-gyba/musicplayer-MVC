@@ -1,3 +1,6 @@
+/* ============================================
+   IMPORTS E RESET
+============================================ */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Music&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu+Condensed&display=swap");
 
@@ -17,14 +20,13 @@
   --bg-color: #0a0e27;
   --card-bg: #5b5bf7;
   --white-color: #ffffff;
-  --text-color: var(--white-color); /* Adicionado: estava sendo usado no body mas não definido */
+  --text-color: #ffffff;
   --text-secondary: #b2bec3;
   --deep-blue: #070136;
   --blue-dark: #0077b6;
+  --success-color: #00b894;
+  --error-color: #d63031;
   --transition: all 0.3s ease-out;
-  --success-color: #00b894; /* Adicionado: estava sendo usado no .alert-success */
-  --error-color: #d63031; /* Adicionado: estava sendo usado no .alert-error */
-  --nuvem-color: var(--text-color); /* Adicionado: estava sendo usado no .stat p mas não definido */
 }
 
 html {
@@ -33,11 +35,7 @@ html {
 
 body {
   font-family: "Noto Music", sans-serif;
-  background: linear-gradient(
-    135deg,
-    var(--bg-color) 0%,
-    var(--primary-color) 100%
-  );
+  background: linear-gradient(135deg, var(--bg-color) 0%, var(--primary-color) 100%);
   color: var(--text-color);
   min-height: 100vh;
   display: flex;
@@ -45,14 +43,11 @@ body {
   line-height: 1.6;
 }
 
-h1,
-h2,
-span {
+h1, h2, span {
   font-family: "Ubuntu Condensed", sans-serif;
 }
 
-h3,
-p {
+h3, p {
   font-size: 1.4rem;
   font-weight: 600;
 }
@@ -69,7 +64,9 @@ i {
   padding: 0 20px;
 }
 
-/* header */
+/* ============================================
+   HEADER
+============================================ */
 .header {
   background: rgba(10, 14, 39, 0.95);
   backdrop-filter: blur(10px);
@@ -80,7 +77,6 @@ i {
   border-bottom: 2px solid rgba(91, 91, 247, 0.3);
 }
 
-/* O .header .container JÁ TEM position: relative; o que é o correto para o nav absolute */
 .header .container {
   position: relative;
   display: flex;
@@ -88,7 +84,9 @@ i {
   align-items: center;
 }
 
-/* logo */
+/* ============================================
+   LOGO
+============================================ */
 .logo {
   display: flex;
   align-items: center;
@@ -106,6 +104,12 @@ i {
   font-weight: 300;
   color: var(--gold-color);
   text-transform: capitalize;
+}
+
+.logo-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
 .container-inline {
@@ -131,7 +135,9 @@ i {
   white-space: nowrap;
 }
 
-/* navbar */
+/* ============================================
+   NAVEGAÇÃO
+============================================ */
 .nav {
   display: flex;
   gap: 0.8rem;
@@ -172,20 +178,33 @@ i {
   opacity: 0.9;
 }
 
+/* ============================================
+   MENU TOGGLE (Mobile)
+============================================ */
 .menu-toggle {
-  display: none;
-  font-size: 1.8rem; /* Ajustado para o maior valor do responsivo para evitar conflito */
+  display: none; /* Escondido por padrão em desktop */
+  font-size: 1.8rem;
   cursor: pointer;
   color: var(--light-color);
+  transition: var(--transition);
+  background: none;
+  border: none;
+  padding: 0.5rem;
 }
 
-/* Hero Section */
+.menu-toggle:hover {
+  color: var(--gold-color);
+}
+
+.menu-toggle i {
+  text-shadow: none;
+}
+
+/* ============================================
+   HERO SECTION
+============================================ */
 .hero {
-  background: linear-gradient(
-    135deg,
-    var(--bg-color) 0%,
-    var(--primary-color) 100%
-  );
+  background: linear-gradient(135deg, var(--bg-color) 0%, var(--primary-color) 100%);
   text-align: center;
   padding: 160px 0;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
@@ -219,17 +238,14 @@ i {
 .btn-primary:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
 }
 
-/* Player Section */
+/* ============================================
+   PLAYER SECTION
+============================================ */
 .player-section {
   padding: 140px 0;
-  background: linear-gradient(
-    135deg,
-    var(--bg-color) 0%,
-    var(--primary-color) 100%
-  );
+  background: linear-gradient(135deg, var(--bg-color) 0%, var(--primary-color) 100%);
 }
 
 .player-container {
@@ -277,12 +293,14 @@ i {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 3px;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .progress {
   height: 100%;
   background: linear-gradient(90deg, #ffd700 0%, #ffed4e 100%);
   width: 0%;
+  transition: width 0.1s linear;
 }
 
 .control-buttons {
@@ -290,6 +308,8 @@ i {
   justify-content: center;
   gap: 1rem;
   margin-top: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .btn-control {
@@ -311,9 +331,13 @@ i {
   transform: scale(1.1);
 }
 
+.btn-control:active {
+  transform: scale(0.95);
+}
+
 .btn-play {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   font-size: 1.4rem;
 }
 
@@ -331,6 +355,7 @@ i {
 .volume-control i {
   color: var(--text-secondary);
   text-shadow: none;
+  font-size: 1.5rem;
 }
 
 #volumeSlider {
@@ -339,9 +364,14 @@ i {
   border-radius: 3px;
   outline: none;
   background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 #volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
   width: 16px;
   height: 16px;
   background: var(--primary-color);
@@ -349,8 +379,18 @@ i {
   cursor: pointer;
 }
 
-/* Playlist */
+#volumeSlider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
 
+/* ============================================
+   PLAYLIST
+============================================ */
 .playlist {
   margin-top: 2rem;
 }
@@ -388,6 +428,7 @@ i {
 
 .playlist-item.active {
   background: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(80, 58, 240, 0.5);
 }
 
 .playlist-item i {
@@ -403,7 +444,6 @@ i {
 .playlist-item span {
   font-size: 1.3rem;
   font-weight: 300;
-  gap: 1rem;
 }
 
 .playlist-item span:first-of-type {
@@ -429,7 +469,9 @@ i {
   border-radius: 10px;
 }
 
-/* About Section */
+/* ============================================
+   ABOUT SECTION
+============================================ */
 .about {
   padding: 8rem 0;
   min-height: 80vh;
@@ -485,20 +527,28 @@ i {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 15px;
   flex: 1;
+  transition: var(--transition);
+}
+
+.stat:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-5px);
 }
 
 .stat h3 {
   font-size: 2.8rem;
-  color: rgba(162, 155, 254, 0.5);
+  color: var(--secondary-color);
   margin-bottom: 0.5rem;
 }
 
 .stat p {
   font-size: 1.4rem;
-  color: var(--nuvem-color);
+  color: var(--text-color);
 }
 
-/* Contact Section */
+/* ============================================
+   CONTACT SECTION
+============================================ */
 .contact {
   padding: 130px 0;
   background: rgba(3, 0, 22, 0.3);
@@ -508,7 +558,6 @@ i {
   text-align: center;
   font-size: 2rem;
   font-weight: 400;
-  animation: fadeInDown 0.6s ease-out;
 }
 
 .contact p {
@@ -524,22 +573,10 @@ i {
   align-items: start;
 }
 
-/* Contact Info */
-.contact-info {
-  animation: fadeInLeft 0.8s ease-out 0.3s backwards;
-}
-
 .contact-info h3 {
   font-size: 1.5rem;
   font-weight: 400;
   margin-bottom: 1.5rem;
-}
-
-.contact-info p {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  margin-bottom: 2rem;
-  color: var(--text-secondary);
 }
 
 .info-item {
@@ -571,32 +608,19 @@ i {
   text-shadow: none;
 }
 
-.info-item div h4 {
-  font-size: 1.2rem;
-  margin-bottom: 0.3rem;
-}
-
-.info-item div p {
-  font-size: 1rem;
-  margin: 0;
-  color: var(--text-secondary);
-}
-
 .info-item span {
   font-size: 1.25rem;
   font-weight: 400;
 }
 
-/* Contact Form */
 .contact-form {
   background: linear-gradient(150deg, var(--primary-color), var(--card-bg));
   padding: 2.5rem;
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-  animation: fadeInRight 0.8s ease-out 0.3s backwards;
 }
 
-.form-grid {
+.form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
@@ -606,39 +630,27 @@ i {
 .form-group {
   display: flex;
   flex-direction: column;
-}
-
-.form-group.full-width {
-  grid-column: 1 / -1;
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
-  font-size: 1rem !important;
-  color: var(--white-color) !important;
+  font-size: 1rem;
+  color: var(--white-color);
   margin-bottom: 0.5rem;
   font-weight: 400;
   display: flex;
   align-items: center;
-  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5), 1px -1px 1px rgba(0, 0, 0, 0.5),
-    -1px 1px 1px rgba(0, 0, 0, 0.5), 1px 1px 1px rgba(0, 0, 0, 0.5);
-}
-
-.form-group label span {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-color);
 }
 
 .form-group label i {
   font-size: 1.5rem;
   color: var(--gold-color);
   margin-right: 0.5rem;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+  text-shadow: none;
 }
 
 .form-group input,
-.form-group textarea,
-.form-group select {
+.form-group textarea {
   padding: 1rem;
   border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
@@ -650,10 +662,9 @@ i {
 }
 
 .form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
+.form-group textarea:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: var(--gold-color);
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -662,22 +673,17 @@ i {
   min-height: 150px;
 }
 
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: var(--text-secondary);
-}
-
 .btn-submit {
-  width: auto;
+  width: 100%;
   max-width: 300px;
   margin: 2rem auto 0 auto;
-  padding: 0.8rem 2rem;
-  background: var(--primary-color);
-  color: var(--text-color);
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #ffa500, #ebd515);
+  color: var(--dark-color);
   border: none;
   border-radius: 50px;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s;
   font-family: "Ubuntu Condensed", sans-serif;
@@ -688,263 +694,13 @@ i {
 }
 
 .btn-submit:hover {
-  background: var(--gold-color);
-  color: rgb(0, 0, 0);
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(80, 58, 240, 0.5);
+  box-shadow: 0 10px 30px rgba(255, 165, 0, 0.5);
 }
 
-.btn-submit:disabled {
-  background: var(--text-secondary);
-  cursor: not-allowed;
-  transform: none;
-}
-
-.btn-submit i {
-  font-size: 1.2rem;
-  text-shadow: none;
-}
-
-/* Alert Messages */
-.alert {
-  padding: 1rem;
-  border-radius: 10px;
-  margin-bottom: 1.5rem;
-  display: none;
-  animation: slideDown 0.3s ease-out;
-}
-
-.alert.show {
-  display: block;
-}
-
-.alert-success {
-  background: rgba(0, 184, 148, 0.2);
-  border: 2px solid var(--success-color);
-  color: var(--success-color);
-}
-
-.alert-error {
-  background: rgba(214, 48, 49, 0.2);
-  border: 2px solid var(--error-color);
-  color: var(--error-color);
-}
-
-/* Animations */
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideDownMenu {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive */
-@media (max-width: 968px) {
-  .contact-wrapper {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* responsive - CORRIGIDO: Retirado o position: static do .header .container e garantido o posicionamento absoluto do nav */
-@media (max-width: 768px) {
-  .header .container {
-    position: relative;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    /* position: static foi removido aqui para manter o position: relative global, que é o correto */
-  }
-
-  /* Aplica o comportamento de menu sanduíche (vertical) */
-  .nav {
-    position: absolute;
-    top: 100%; 
-    margin-top: 0;
-    margin-bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background: var(--dark-color);
-    flex-direction: column; /* Garante que os links fiquem na vertical */
-    display: none;
-    z-index: 999; /* Garante que o menu fique sobre outros elementos */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Adicionado para visual */
-  }
-
-  .nav.active {
-    display: flex;
-    animation: slideDownMenu 0.3s ease-out; /* Adicionado animação para transição suave */
-  }
-
-  .nav a {
-    padding: 1rem 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .nav a:last-child {
-    border-bottom: none;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
-  .hero-content h2 {
-    font-size: 2rem;
-  }
-
-  .about-content {
-    grid-template-columns: 1fr;
-  }
-
-  .about-stats {
-    display: flex;
-    flex-direction: column; /* Alterado para coluna para telas menores que 768px */
-    gap: 1.5rem;
-  }
-  
-  .stat {
-    padding: 1.5rem;
-  }
-
-  .contact-wrapper {
-    grid-template-columns: 1fr;
-  }
-
-  .social-link {
-    width: 50px;
-    height: 50px;
-  }
-
-  .contact h2 {
-    font-size: 2rem;
-  }
-
-  .contact-subtitle {
-    font-size: 1rem;
-  }
-
-  .contact-form {
-    padding: 1.5rem;
-  }
-
-  .info-item {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-/* Whatsapp float button */
-.whatsapp-float {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 9999;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  color: var(--text-color);
-  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  animation: pulse 2s infinite;
-}
-
-.whatsapp-float:hover {
-  transform: translateY(-5px) scale(1.1);
-  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
-  animation: none;
-}
-
-.whatsapp-icon i {
-  font-size: 2.25rem;
-  color: var(--text-color);
-  text-shadow: none;
-  animation: wiggle 1s ease-in-out infinite;
-}
-
-/* Pulse Animation */
-@keyframes pulse {
-  0%,
-  100% {
-    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-  }
-  50% {
-    box-shadow: 0 4px 30px rgba(37, 211, 102, 0.7);
-  }
-}
-
-/* Wiggle Animation */
-@keyframes wiggle {
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(-10deg);
-  }
-  75% {
-    transform: rotate(10deg);
-  }
-}
-
-/* Social Section */
+/* ============================================
+   SOCIAL SECTION
+============================================ */
 .social-section {
   padding: 2.5rem 0;
   background-color: var(--primary-color);
@@ -962,7 +718,6 @@ i {
   display: flex;
   justify-content: center;
   gap: 25px;
-  margin-top: 0;
 }
 
 .social-link {
@@ -982,111 +737,155 @@ i {
 .social-link:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-  background-color: var(--primary-color);
-  color: var(--text-color);
+  background-color: var(--secondary-color);
   border-color: var(--text-color);
 }
 
-/* footer */
+/* ============================================
+   FOOTER
+============================================ */
 .footer {
   background-color: var(--deep-blue);
   padding: 18px 0;
   text-align: center;
   color: var(--text-color);
-  font-size: 0.8rem;
-  font-style: inherit;
-  font-weight: 200;
+  font-size: 0.9rem;
+  font-weight: 300;
 }
 
-/* responsive  */
-@media (max-width: 480px) {
-  .container {
-    padding: 0 15px;
+/* ============================================
+   RESPONSIVE - TABLET (968px)
+============================================ */
+@media (max-width: 968px) {
+  .contact-wrapper,
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - TABLET/MOBILE (768px)
+============================================ */
+@media (max-width: 768px) {
+  /* HEADER E NAVEGAÇÃO MOBILE */
   .header .container {
-    gap: 0.5rem;
-    position: static; /* Isso é mantido aqui para que a logo e o toggle fiquem alinhados */
-  }
-
-  .logo-area {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .logo {
-    gap: 0.3rem;
-  }
-
-  .logo i {
-    font-size: 1.5rem;
-  }
-
-  .logo h1 {
-    font-size: 1.3rem;
-  }
-
-  .container-inline {
-    gap: 0;
-  }
-
-  .container-inline h2 {
-    font-size: 0.85rem;
-    line-height: 1.2;
-    white-space: normal;
-    word-wrap: break-word;
-  }
-
-  .container-inline h2 span {
-    font-size: 0.85rem;
-    display: inline;
-    margin-left: 3px;
-  }
-
-  /* Menu Toggle */
-  .menu-toggle {
-    display: block;
-    font-size: 1.8rem;
-    flex-shrink: 0;
-    padding: 0.5rem;
-  }
-
-  .header {
-    position: relative;
+    flex-wrap: nowrap;
   }
 
   .nav {
     position: absolute;
     top: 100%;
-    margin-top: 0;
     left: 0;
     right: 0;
     width: 100%;
     background: var(--dark-color);
     flex-direction: column;
-    display: none;
+    display: none; /* Escondido por padrão */
     z-index: 999;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 0;
+    margin: 0;
   }
 
   .nav.active {
-    display: flex;
-    animation: slideDownMenu 0.3s ease-out;
+    display: flex; /* Mostra quando ativo */
   }
 
   .nav a {
-    font-size: 1.1rem;
     padding: 1rem 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    width: 100%;
   }
 
   .nav a:last-child {
     border-bottom: none;
   }
 
-  /* Hero Section */
+  /* MENU TOGGLE - APARECE EM MOBILE */
+  .menu-toggle {
+    display: block !important; /* Força aparecer */
+  }
+
+  /* LOGO E TEXTO */
+  .logo h1 {
+    font-size: 1.8rem;
+  }
+
+  .container-inline h2 {
+    font-size: 1.1rem;
+  }
+
+  .container-inline span {
+    font-size: 1.1rem;
+  }
+
+  /* HERO */
   .hero {
+    padding: 120px 0;
+  }
+
+  .hero-content h2 {
+    font-size: 2rem;
+  }
+
+  /* PLAYER */
+  .player-section {
     padding: 100px 0;
+  }
+
+  /* ABOUT */
+  .about-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .stat {
+    padding: 1.5rem;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - MOBILE PEQUENO (480px)
+============================================ */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  /* LOGO */
+  .logo i {
+    font-size: 1.8rem;
+  }
+
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+
+  .container-inline h2 {
+    font-size: 0.9rem;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+
+  .container-inline span {
+    font-size: 0.9rem;
+  }
+
+  /* MENU TOGGLE */
+  .menu-toggle {
+    display: block !important;
+    font-size: 1.6rem;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 80px 0;
   }
 
   .hero-content h2 {
@@ -1102,9 +901,9 @@ i {
     font-size: 1rem;
   }
 
-  /* Player Section */
+  /* PLAYER */
   .player-section {
-    padding: 80px 0;
+    padding: 60px 0;
   }
 
   .player-container {
@@ -1127,7 +926,6 @@ i {
   }
 
   .control-buttons {
-    flex-wrap: wrap;
     gap: 0.8rem;
   }
 
@@ -1137,40 +935,32 @@ i {
   }
 
   .btn-play {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     font-size: 1.2rem;
   }
 
   .volume-control {
     margin-left: 0;
     margin-top: 1rem;
+    width: 100%;
     justify-content: center;
   }
 
   #volumeSlider {
-    width: 80px;
+    width: 150px;
   }
 
-  /* Playlist */
-  .playlist h3 {
-    font-size: 1.2rem;
-  }
-
+  /* PLAYLIST */
   .playlist-item {
     padding: 0.8rem;
-    flex-wrap: wrap;
   }
 
   .playlist-item span {
     font-size: 1.1rem;
   }
 
-  .playlist-item i {
-    font-size: 1.4rem;
-  }
-
-  /* About Section */
+  /* ABOUT */
   .about {
     padding: 4rem 0;
   }
@@ -1183,113 +973,33 @@ i {
     font-size: 1.2rem;
   }
 
-  .about-text p span {
-    font-size: 1.3rem;
-    margin-left: 5px;
-  }
-
-  .about-stats {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .stat {
-    padding: 1.5rem;
-  }
-
-  .stat h3 {
-    font-size: 2.2rem;
-  }
-
-  .stat p {
-    font-size: 1.2rem;
-  }
-
-  /* Contact Section */
+  /* CONTACT */
   .contact {
-    padding: 80px 0;
+    padding: 60px 0;
   }
 
   .contact h2 {
     font-size: 1.6rem;
   }
 
-  .contact p {
-    font-size: 1.2rem;
-  }
-
-  .contact-info h3 {
-    font-size: 1.3rem;
-  }
-
-  .contact-info p {
-    font-size: 1rem;
-  }
-
-  .info-item {
-    flex-direction: row;
-    padding: 0.8rem;
-  }
-
-  .info-item i {
-    font-size: 1.3rem;
-    width: 35px;
-    height: 35px;
-  }
-
-  .info-item div h4 {
-    font-size: 1.1rem;
-  }
-
-  .info-item div p,
-  .info-item span {
-    font-size: 1rem;
-  }
-
   .contact-form {
     padding: 1.5rem;
   }
 
-  .form-group label {
-    font-size: 1.1rem;
-  }
-
   .form-group input,
-  .form-group textarea,
-  .form-group select {
+  .form-group textarea {
     padding: 0.8rem;
     font-size: 0.95rem;
-  }
-
-  .form-group textarea {
-    min-height: 120px;
   }
 
   .btn-submit {
     max-width: 100%;
     font-size: 1rem;
-    padding: 0.7rem 1.5rem;
   }
 
-  /* WhatsApp Float Button */
-  .whatsapp-float {
-    width: 50px;
-    height: 50px;
-    bottom: 20px;
-    right: 20px;
-  }
-
-  .whatsapp-icon i {
-    font-size: 1.8rem;
-  }
-
-  /* Social Section */
+  /* SOCIAL */
   .social-section {
     padding: 2rem 0;
-  }
-
-  .social-section h3 {
-    font-size: 1.5rem;
   }
 
   .social-links {
@@ -1302,18 +1012,9 @@ i {
     font-size: 1.6rem;
   }
 
-  /* Footer */
+  /* FOOTER */
   .footer {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     padding: 15px 0;
-  }
-
-  h3,
-  p {
-    font-size: 1.2rem;
-  }
-
-  i {
-    font-size: 1.6rem;
   }
 }

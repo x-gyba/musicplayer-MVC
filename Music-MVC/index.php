@@ -3,29 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sola Gratia</title>
+    <title>Sola Gratia - Music Player</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/login.css">
-    <link rel="stylesheet" href="assets/css/contact.css">
     <link rel="stylesheet" href="assets/css/whatsapp.css">
+
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+    <!-- ============================================ -->
+    <!-- HEADER -->
+    <!-- ============================================ -->
     <header class="header">
         <div class="container">
             <div class="logo-area">
                 <div class="logo">
-                  <i class="fa-solid fa-cross"></i>
+                    <i class="fa-solid fa-cross"></i>
                     <h1>Sola Gratia</h1>
                 </div>
                 <div class="container-inline">
-                    <h2>Mas Deus escolheu as coisas loucas deste mundo para confundir as sábias.<span>&nbsp;1Co 1:27</span></h2>
-                    
+                    <h2>Mas Deus escolheu as coisas loucas deste mundo para confundir as sábias.
+                        <span>1Co 1:27</span>
+                    </h2>
                 </div>
             </div>
 
             <nav class="nav" id="nav">
-                <a href="#home">Inicio</a>
+                <a href="#home">Início</a>
                 <a href="#music">Músicas</a>
                 <a href="#about">Sobre</a>
                 <a href="#" id="loginTrigger">Login</a>
@@ -38,39 +45,61 @@
         </div>
     </header>
 
-    <!-- Modal de Login -->
+    <!-- ============================================ -->
+    <!-- MODAL DE LOGIN -->
+    <!-- ============================================ -->
+    <div class="login-modal-overlay" id="loginOverlay"></div>
+
     <div class="login-modal" id="loginModal">
-        <div class="login-modal-overlay" id="loginOverlay"></div>
         <div class="login-modal-content">
-            <button class="login-close" id="closeModal">
+            <button class="login-close" id="closeModal" type="button" aria-label="Fechar modal">
                 <i class="fas fa-times"></i>
             </button>
+
             <div class="login-header">
                 <i class="fas fa-user-shield"></i>
                 <h2>Login</h2>
                 <p>Painel Administrativo</p>
             </div>
+
             <form id="loginForm" class="login-form-modal">
                 <div class="form-group">
                     <label for="username">
                         <i class="fas fa-user"></i>
                         Usuário
                     </label>
-                    <input type="text" id="username" name="username" placeholder="Digite seu usuário" required autocomplete="username">
+                    <input
+                        type="text"
+                        id="username"
+                        name="usuario"
+                        placeholder="Digite seu usuário"
+                        required
+                        autocomplete="username"
+                    >
                 </div>
+
                 <div class="form-group">
                     <label for="password">
                         <i class="fas fa-lock"></i>
                         Senha
                     </label>
                     <div class="password-input-wrapper">
-                        <input type="password" id="password" name="password" placeholder="Digite sua senha" required autocomplete="current-password">
-                        <button type="button" class="toggle-password" id="togglePassword">
+                        <input
+                            type="password"
+                            id="password"
+                            name="senha"
+                            placeholder="Digite sua senha"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button type="button" class="toggle-password" id="togglePassword" aria-label="Mostrar senha">
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
                 </div>
+
                 <div class="form-message" id="formMessage"></div>
+
                 <button type="submit" class="btn-login" id="btnLogin">
                     <span class="btn-text">Entrar</span>
                     <span class="btn-loader" style="display: none;">
@@ -81,6 +110,9 @@
         </div>
     </div>
 
+    <!-- ============================================ -->
+    <!-- HERO SECTION -->
+    <!-- ============================================ -->
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
@@ -91,17 +123,23 @@
         </div>
     </section>
 
+    <!-- ============================================ -->
+    <!-- PLAYER SECTION -->
+    <!-- ============================================ -->
     <section class="player-section" id="music">
         <div class="container">
             <div class="player-container">
+                <!-- Player Info -->
                 <div class="player-info">
                     <div class="album-art">
                         <i class="fas fa-compact-disc fa-spin" id="albumIcon"></i>
                     </div>
                     <div class="track-info">
-                        <h3 id="trackName">Selecione uma musica</h3>
+                        <h3 id="trackName">Selecione uma música</h3>
+                    </div>
                 </div>
-                </div>
+
+                <!-- Player Controls -->
                 <div class="player-controls">
                     <div class="progress-container">
                         <span class="time" id="currentTime">0:00</span>
@@ -110,22 +148,25 @@
                         </div>
                         <span class="time" id="duration">0:00</span>
                     </div>
+
                     <div class="control-buttons">
-                        <button class="btn-control" id="prevBtn" title="Anterior">
+                        <button class="btn-control" id="prevBtn" title="Anterior" aria-label="Música anterior">
                             <i class="fas fa-backward"></i>
                         </button>
-                        <button class="btn-control btn-play" id="playBtn" title="Play/Pause">
+                        <button class="btn-control btn-play" id="playBtn" title="Play/Pause" aria-label="Play ou Pause">
                             <i class="fas fa-play"></i>
                         </button>
-                        <button class="btn-control" id="nextBtn" title="Próximo">
+                        <button class="btn-control" id="nextBtn" title="Próximo" aria-label="Próxima música">
                             <i class="fas fa-forward"></i>
                         </button>
                         <div class="volume-control">
                             <i class="fas fa-volume-up"></i>
-                            <input type="range" id="volumeSlider" min="0" max="100" value="70">
+                            <input type="range" id="volumeSlider" min="0" max="100" value="70" aria-label="Controle de volume">
                         </div>
                     </div>
                 </div>
+
+                <!-- Playlist -->
                 <div class="playlist">
                     <h3>Playlist</h3>
                     <ul id="playlistContainer">
@@ -136,7 +177,7 @@
                         </li>
                         <li class="playlist-item" data-src="music/ Aline Barros - Consagração _ Louvor ao Rei (Ao Vivo).mp3">
                             <i class="fas fa-music"></i>
-                            <span>Aline Barros - Consagração _ Louvor ao Rei (Ao Vivo)</span>
+                            <span>Aline Barros - Consagração / Louvor ao Rei</span>
                             <span class="duration">0:00</span>
                         </li>
                         <li class="playlist-item" data-src="https://cdn.pixabay.com/download/audio/2024/02/10/audio_55a2992982.mp3?filename=beat-box-music-173620.mp3">
@@ -155,6 +196,9 @@
         </div>
     </section>
 
+    <!-- ============================================ -->
+    <!-- ABOUT SECTION -->
+    <!-- ============================================ -->
     <section class="about" id="about">
         <div class="container">
             <h2>Quero oferecer sacrifício de louvor.</h2>
@@ -162,12 +206,14 @@
                 <div class="about-text">
                     <p>Mas a hora vem, e agora é, em que os verdadeiros adoradores adorarão o Pai em espírito e em verdade;</p>
                     <p>porque o Pai procura a tais que assim o adorem.</p>
-                    <p>Deus é Espírito, e importa que os que o adoram o adorem em espírito e em verdade.<span>João 4:24</span></p>
+                    <p>Deus é Espírito, e importa que os que o adoram o adorem em espírito e em verdade.
+                        <span>João 4:24</span>
+                    </p>
                 </div>
                 <div class="about-stats">
                     <div class="stat">
                         <h3>100+</h3>
-                        <p>Musicas</p>
+                        <p>Músicas</p>
                     </div>
                     <div class="stat">
                         <h3>50K+</h3>
@@ -175,13 +221,16 @@
                     </div>
                     <div class="stat">
                         <h3>5+</h3>
-                        <p>Albuns</p>
+                        <p>Álbuns</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ============================================ -->
+    <!-- CONTACT SECTION -->
+    <!-- ============================================ -->
     <section class="contact" id="contact">
         <div class="container">
             <h2>Fale Conosco</h2>
@@ -239,7 +288,7 @@
                     </div>
                     <div class="info-item">
                         <i class="fas fa-envelope"></i>
-                        <span>contato@filipecruz.com</span>
+                        <span>contato@solagratia.com</span>
                     </div>
                     <div class="info-item">
                         <i class="fas fa-phone"></i>
@@ -250,36 +299,63 @@
         </div>
     </section>
 
+    <!-- ============================================ -->
+    <!-- SOCIAL SECTION -->
+    <!-- ============================================ -->
     <section class="social-section">
         <div class="container">
             <h3>Siga-me nas Redes Sociais</h3>
             <div class="social-links">
-                <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="social-link" aria-label="Spotify"><i class="fab fa-spotify"></i></a>
-                <a href="#" class="social-link" aria-label="SoundCloud"><i class="fab fa-soundcloud"></i></a>
+                <a href="#" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Spotify" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-spotify"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="SoundCloud" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-soundcloud"></i>
+                </a>
             </div>
         </div>
     </section>
 
+    <!-- ============================================ -->
+    <!-- FOOTER -->
+    <!-- ============================================ -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 Infogyba Soluções em Ti. Todos os direitos reservados.</p>
+            <p>&copy; 2025 Infogyba Soluções em TI. Todos os direitos reservados.</p>
         </div>
     </footer>
 
-    <a href="https://wa.me/5521999999999?text=Olá!%20Vim%20do%20seu%20site%20e%20gostaria%20de%20mais%20informações." class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Fale conosco no WhatsApp">
+    <!-- ============================================ -->
+    <!-- WHATSAPP FLOAT BUTTON -->
+    <!-- ============================================ -->
+    <a href="https://wa.me/5521999999999?text=Olá!%20Vim%20do%20seu%20site%20e%20gostaria%20de%20mais%20informações."
+       class="whatsapp-float"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Fale conosco no WhatsApp">
         <div class="whatsapp-icon">
             <i class="fab fa-whatsapp"></i>
         </div>
-        <span class="whatsapp-text"></span>
     </a>
 
+    <!-- ============================================ -->
+    <!-- AUDIO PLAYER (HTML5) -->
+    <!-- ============================================ -->
     <audio id="audioPlayer"></audio>
 
+    <!-- ============================================ -->
+    <!-- JAVASCRIPT -->
+    <!-- ============================================ -->
     <script src="assets/js/script.js"></script>
     <script src="assets/js/login.js"></script>
-    <script src="assets/js/contact.js"></script>
 </body>
 </html>

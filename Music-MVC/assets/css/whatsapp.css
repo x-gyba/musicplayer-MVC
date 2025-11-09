@@ -1,0 +1,73 @@
+/* =================================== */
+/* Estilos do Botão Flutuante do WhatsApp */
+/* =================================== */
+.whatsapp-float {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  color: var(--text-color);
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  animation: pulse 2s infinite;
+}
+
+.whatsapp-float:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+  animation: none;
+}
+
+.whatsapp-icon i {
+  font-size: 2.25rem;
+  color: var(--text-color);
+  text-shadow: none;
+  animation: wiggle 1s ease-in-out infinite;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 30px rgba(37, 211, 102, 0.7);
+  }
+}
+
+/* Wiggle Animation */
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+}
+
+/* Responsive para telas pequenas */
+@media (max-width: 480px) {
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .whatsapp-icon i {
+        font-size: 1.8rem;
+    }
+}

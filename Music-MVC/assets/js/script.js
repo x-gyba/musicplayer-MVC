@@ -1,4 +1,4 @@
-// Versão Music Player de Filipe Cruz
+/* Javascript Music Player - Infogyba Solucoes em Ti */
 
 const player = {
     audio: null,
@@ -47,7 +47,7 @@ const player = {
             this.loadTrack(0);
         }
 
-        console.log(`Player iniciado! ${this.playlist.length} músicas carregadas.`);
+        console.log(`🎵 Player iniciado! ${this.playlist.length} músicas carregadas.`);
     },
 
     /**
@@ -243,8 +243,22 @@ const player = {
             };
         });
 
-        // Fecha o menu ao clicar fora
+        // ⚠️ CORREÇÃO CRÍTICA: Fecha o menu APENAS se clicar fora E o modal NÃO estiver aberto
         document.onclick = (e) => {
+            // VERIFICA SE O MODAL DE LOGIN ESTÁ ABERTO
+            const loginModal = document.getElementById('loginModal');
+            const isModalOpen = loginModal && (
+                loginModal.classList.contains('active') || 
+                loginModal.style.display === 'flex'
+            );
+            
+            // Se o modal estiver aberto, NÃO faz nada
+            if (isModalOpen) {
+                console.log('🛡️ Modal aberto - Ignorando clique global');
+                return;
+            }
+            
+            // Se clicar fora do nav e toggle, fecha o menu
             if (!nav.contains(e.target) && !toggle.contains(e.target)) {
                 if (nav.classList.contains('active')) {
                     nav.classList.remove('active');
@@ -256,58 +270,71 @@ const player = {
 };
 
 // --------------------------------------------------
+// INICIALIZAÇÃO DO PLAYER
+// --------------------------------------------------
 
-// Inicia o player quando o DOM estiver completamente carregado
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('📄 DOM Carregado - Inicializando sistemas...');
+    
+    // Inicializa o player de música
     player.init();
+    
+    // Configura scroll suave para links âncora
+    initSmoothScroll();
 });
 
-// Scroll suave para todos os links âncora
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.onclick = (e) => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-});
+// --------------------------------------------------
+// SCROLL SUAVE PARA LINKS ÂNCORA
+// --------------------------------------------------
 
+function initSmoothScroll() {
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            
+            // Ignora links vazios ou só com '#'
+            if (!targetId || targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                // Obtém a altura do header fixo para ajustar o scroll
+                const header = document.querySelector('.header');
+                const headerHeight = header ? header.offsetHeight : 0;
 
-// scroll suave
-    document.addEventListener('DOMContentLoaded', function() {
-        // Seleciona todos os links de âncora que apontam para uma seção dentro da mesma página
-        const anchorLinks = document.querySelectorAll('a[href^="#"]');
-        
-        anchorLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                // Previne o comportamento padrão de "salto"
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    // Obtém a altura do header fixo, se houver, para ajustar o scroll (offset)
-                    const header = document.querySelector('.header');
-                    const headerHeight = header ? header.offsetHeight : 0;
+                // Calcula a posição do scroll, subtraindo a altura do header
+                const offsetPosition = targetElement.offsetTop - headerHeight;
 
-                    // Calcula a posição do scroll, subtraindo a altura do header
-                    const offsetPosition = targetElement.offsetTop - headerHeight;
+                // Aplica a rolagem suave
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
 
-                    // Aplica a rolagem suave
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
-
-                    // (Opcional) Se o seu menu mobile usa a classe 'active' para fechar, você pode adicionar esta lógica:
-                    const nav = document.querySelector('.nav');
-                    if (nav && nav.classList.contains('active')) {
-                        nav.classList.remove('active');
-                        // Se você tiver um botão toggle, adicione a lógica para desativá-lo visualmente aqui.
+                // Fecha o menu mobile se estiver aberto
+                const nav = document.querySelector('.nav');
+                if (nav && nav.classList.contains('active')) {
+                    nav.classList.remove('active');
+                    
+                    const toggle = document.getElementById('menuToggle');
+                    if (toggle) {
+                        const icon = toggle.querySelector('i');
+                        if (icon) icon.className = 'fas fa-bars';
                     }
                 }
-            });
+            }
         });
     });
+    
+    console.log('✅ Scroll suave configurado para', anchorLinks.length, 'links');
+}
+
+// --------------------------------------------------
+// FIM DO ARQUIVO
+// --------------------------------------------------
+
+console.log('✅ script.js carregado com sucesso!');

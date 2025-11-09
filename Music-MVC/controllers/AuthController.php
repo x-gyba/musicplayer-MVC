@@ -1,86 +1,148 @@
 <?php
-/* AuthController.php */
- /* Gerencia a lógica de autenticação (Login e Logout).*/
+ /* DESCRIÇÃO: Controller para autenticação de usuários */
+ 
+/* Inicia a sessão */
+session_start();
 
-/* Inicia a sessão se ainda não estiver iniciada */
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-/* Inclusão das dependências */
-/* O caminho de inclusão é ajustado para a estrutura 'Music-MVC' */
-require_once __DIR__ . '/../models/User.php';
-require_once __DIR__ . '/../config/database.php'; 
-/* Classe Controller */
-class AuthController {
-    private $userModel;
+/* Habilita exibição de erros para debug (REMOVER EM PRODUÇÃO) */
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/../logs/php_errors.log');
 
-    public function __construct() {
-/* Assume que a classe User() lida com a conexão de banco de dados internamente. */
-        $this->userModel = new User(); 
-    }
+/* Log de início */
+error_log("========================================");
+error_log("AuthController iniciado");
+error_log("Método: " . $_SERVER['REQUEST_METHOD']);
+error_log("========================================");
 
-    /* Lida com a requisição de login. Espera um POST (usado com AJAX). */
-    /* Retorna uma resposta JSON. */
-    public function login() {
-        // Configura o cabeçalho para JSON
-        header('Content-Type: application/json');
+/* Headers CORS e JSON */
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
 
-        /* Validação básica da requisição */
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['username']) || !isset($_POST['password'])) {
-            http_response_code(400); // Bad Request
-            echo json_encode(['success' => false, 'message' => 'Requisição inválida.']);
-            exit;
-        }
+/* Resposta padrão */
+$response = [
+    'success' => false,
+    'message' => 'Erro desconhecido'
+];
 
-        $username = trim($_POST['username']);
-        $password = trim($_POST['password']);
-
-        /* Chama o método de autenticação do modelo */
-        $user = $this->userModel->authenticate($username, $password);
-
-        if ($user) {
-            /* Autenticação bem-sucedida: Cria variáveis de sessão*/
-            $_SESSION['logged_in'] = true; 
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role']; // Ex: 'admin', 'user'
-
-            /* Retorna JSON de sucesso. O JS fará o redirecionamento. */
-            /* O caminho 'views/upload.php' é um exemplo. */
-            echo json_encode(['success' => true, 'redirect' => '../views/upload.php']); 
-            exit;
-        } else {
-            /* Falha na autenticação */
-            http_response_code(401); /* Unauthorized */
-            echo json_encode(['success' => false, 'message' => 'Usuário ou senha incorretos.']);
-            exit;
-        }
-    }
-
-    /* Lida com o processo de logout. /*
-    /* Limpa a sessão e redireciona para a página inicial.*/
-      public function logout() {
-        $_SESSION = array(); // Limpa todas as variáveis de sessão
-        session_destroy();   // Destrói a sessão
-        header('Location: ../index.php'); // Redireciona
+try {
+    /* Verifica método HTTP */
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        $response['message'] = 'Método não permitido. Use POST.';
+        echo json_encode($response);
         exit;
     }
+
+    /* Verifica ação */
+    $action = $_GET['auth_action'] ?? '';
+    error_log("Ação solicitada: " . $action);
+
+    if ($action !== 'login') {
+        http_response_code(400);
+        $response['message'] = 'Ação inválida';
+        echo json_encode($response);
+        exit;
+    }
+
+    /* Inclui dependências */
+    require_once __DIR__ . '/../config/database.php';
+    require_once __DIR__ . '/../models/User.php';
+
+    /* Conecta ao banco */
+    $database = new Database();
+    $db = $database->getConnection();
+
+    if ($db === null) {
+        throw new Exception('Erro ao conectar com o banco de dados');
+    }
+
+    error_log("Conexão com banco estabelecida");
+
+    /* Captura dados do POST */
+    $usuario = trim($_POST['usuario'] ?? '');
+    $senha = $_POST['senha'] ?? '';
+
+    error_log("Usuário recebido: " . $usuario);
+    error_log("Senha recebida: " . (empty($senha) ? 'VAZIA' : 'PREENCHIDA'));
+
+    /* Validação básica */
+    if (empty($usuario) || empty($senha)) {
+        $response['message'] = 'Por favor, preencha todos os campos.';
+        echo json_encode($response);
+        exit;
+    }
+
+    /* Instancia o model */
+    $userModel = new User($db);
+
+    /* Verifica se está bloqueado */
+    if ($userModel->isBlocked($usuario)) {
+        error_log("Usuário bloqueado: " . $usuario);
+        $response['message'] = 'Muitas tentativas falhadas. Aguarde 15 minutos.';
+        echo json_encode($response);
+        exit;
+    }
+
+    /* Busca o usuário */
+    $user = $userModel->findByUsername($usuario);
+
+    if (!$user) {
+        error_log("Usuário não encontrado: " . $usuario);
+        $userModel->logAttempt($usuario, false);
+        $response['message'] = 'Usuário ou senha incorretos.';
+        echo json_encode($response);
+        exit;
+    }
+
+    error_log("Usuário encontrado - ID: " . $user['id']);
+    error_log("Hash do banco: " . substr($user['senha'], 0, 20) . "...");
+
+    /* Verifica a senha */
+    if (!password_verify($senha, $user['senha'])) {
+        error_log("Senha incorreta para: " . $usuario);
+        $userModel->logAttempt($usuario, false);
+        $response['message'] = 'Usuário ou senha incorretos.';
+        echo json_encode($response);
+        exit;
+    }
+
+    error_log("Senha verificada com sucesso!");
+
+    /* Login bem-sucedido */
+    $userModel->logAttempt($usuario, true);
+    $userModel->updateLastLogin($user['id']);
+
+    /* Cria sessão */
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['usuario'] = $user['usuario'];
+    $_SESSION['login_time'] = time();
+
+    error_log("Sessão criada - User ID: " . $user['id']);
+
+    /* Resposta de sucesso */
+    $response = [
+        'success' => true,
+        'message' => 'Login realizado com sucesso!',
+        'user_id' => $user['id'],
+        'usuario' => $user['usuario'],
+        'redirect' => '../views/upload.php'
+    ];
+
+    error_log("✅ LOGIN BEM-SUCEDIDO: " . $usuario);
+    echo json_encode($response);
+
+} catch (Exception $e) {
+    error_log("ERRO FATAL: " . $e->getMessage());
+    error_log("Stack trace: " . $e->getTraceAsString());
+
+    http_response_code(500);
+    $response['message'] = 'Erro interno do servidor. Verifique os logs.';
+    $response['error_details'] = $e->getMessage(); /* REMOVER EM PRODUÇÃO */
+
+    echo json_encode($response);
 }
-
-/* Verifica se há uma ação solicitada na URL */
-if (isset($_GET['action'])) {
-    /* Instancia o controlador UMA VEZ ) */
-    $controller = new AuthController(); 
-    $action = $_GET['action'];
-
-    if ($action === 'login') {
-   /* Executa o método de login */
-        $controller->login();
-    } elseif ($action === 'logout') {
-    /* Executa o método de logout */
-        $controller->logout();
-    } 
-    
-}
-
-?> 
+?>
